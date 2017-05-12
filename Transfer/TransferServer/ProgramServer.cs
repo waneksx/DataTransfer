@@ -2,11 +2,12 @@
 
 namespace TransferServer
 {
-    class Program
+    class ProgramServer
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello Marcin!");
+            Server _server = new Server();
+            Console.ReadKey();
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace TransferClient
 {
-    class Program
+    class ProgramClient
     {
         static void Main(string[] args)
         {
