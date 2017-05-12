@@ -22,20 +22,20 @@ namespace TransferClient
             connector = new Socket(ipAdr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
         }
 
-        public async void Start()
+        public async Task Start(int quantity)
         {
             Console.WriteLine("Start connection");
             await connector.ConnectAsync(endPoint);
             Console.WriteLine("Connected");
             NetworkStream stream = new NetworkStream(connector);
-            await WriteData(stream);
+            await WriteData(stream, quantity);
             Console.WriteLine("Data transfered, answer received, stream will disposed");
             stream.Dispose();
         }
 
-        async Task WriteData(NetworkStream stream)
+        async Task WriteData(NetworkStream stream, int quantity)
         {
-            byte[] dataBuffer = MessagePackSerializer.Serialize<Call[]>(GetCalls());
+            byte[] dataBuffer = MessagePackSerializer.Serialize(GetCalls(quantity));
             await stream.WriteAsync(dataBuffer, 0, dataBuffer.Length);
             string answer = await ReadAnswer(stream);
             Console.WriteLine("Answer from server - " + answer);
@@ -56,7 +56,7 @@ namespace TransferClient
             return answer;
         }
 
-        Call[] GetCalls()
+        Call[] GetCalls(int quantity)
         {
             Call callEmtp = new Call()
             {
@@ -71,7 +71,7 @@ namespace TransferClient
                 Status = 11,
                 WasSentToHub = false
             };
-            Call[] calls = new Call[100 * new Random().Next(50, 100)];
+            Call[] calls = new Call[quantity];
             for (int i = 0; i < calls.Length; i++)
             {
                 callEmtp.Id = i;
