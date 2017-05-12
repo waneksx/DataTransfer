@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Entities;
+using MessagePack;
 
 namespace TransferServer
 {
@@ -25,14 +28,37 @@ namespace TransferServer
         private async void Listen()
         {
             Socket socket = await listener.AcceptAsync();
-            TransferData(socket);
+            await Task.Run(() => ReadData(socket));
             Listen();
         }
 
-        private async void TransferData(Socket socket)
+        private async void ReadData(Socket socket)
         {
             byte[] buffer = new byte[2048];
+            List<byte> dataBuffer = new List<byte>();
+            int recordLength = 0;
             NetworkStream stream = new NetworkStream(socket);
+
+            do
+            {
+                recordLength = await stream.ReadAsync(buffer, 0, buffer.Length);
+                dataBuffer.AddRange(buffer.Take(recordLength));
+            }
+            while (stream.DataAvailable);
+
+            Call[] transferedCalls = MessagePackSerializer.Deserialize<Call[]>(dataBuffer.ToArray());
+
+            await WriteAnswer(stream);
+            stream.Dispose();
+            socket.Shutdown(SocketShutdown.Both);
+            socket.Dispose();
+        }
+
+        private async Task WriteAnswer(NetworkStream stream)
+        {
+            byte[] answer = Encoding.UTF8.GetBytes("Data transfered succesfully");
+            await stream.WriteAsync(answer, 0, answer.Length);
+            return;
         }
     }
 }
