@@ -28,7 +28,9 @@ namespace TransferServer
 
         private async void Listen()
         {
+            Console.WriteLine("Waiting for connection");
             Socket socket = await listener.AcceptAsync();
+            Console.WriteLine("Connected to server");
             await Task.Run(() => ReadData(socket));
             Listen();
         }
@@ -48,6 +50,7 @@ namespace TransferServer
             while (stream.DataAvailable);
 
             Call[] transferedCalls = MessagePackSerializer.Deserialize<Call[]>(dataBuffer.ToArray());
+            Console.WriteLine($"Transfered array with length = {transferedCalls.Length}");
 
             await WriteAnswer(stream);
             stream.Dispose();

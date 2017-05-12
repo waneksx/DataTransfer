@@ -24,9 +24,12 @@ namespace TransferClient
 
         public async void Start()
         {
+            Console.WriteLine("Start connection");
             await connector.ConnectAsync(endPoint);
+            Console.WriteLine("Connected");
             NetworkStream stream = new NetworkStream(connector);
             await WriteData(stream);
+            Console.WriteLine("Data transfered, answer received, stream will disposed");
             stream.Dispose();
         }
 
@@ -35,7 +38,7 @@ namespace TransferClient
             byte[] dataBuffer = MessagePackSerializer.Serialize<Call[]>(GetCalls());
             await stream.WriteAsync(dataBuffer, 0, dataBuffer.Length);
             string answer = await ReadAnswer(stream);
-            Console.WriteLine(answer);
+            Console.WriteLine("Answer from server - " + answer);
             return;
         }
 
@@ -44,7 +47,8 @@ namespace TransferClient
             int recordLength = 0;
             byte[] buffer = new byte[2048];
             string answer = "";
-            do {
+            do
+            {
                 recordLength = await stream.ReadAsync(buffer, 0, buffer.Length);
                 answer += Encoding.UTF8.GetString(buffer, 0, recordLength);
             }

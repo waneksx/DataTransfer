@@ -7,6 +7,8 @@ namespace TransferClient
         static void Main(string[] args)
         {
             Client cl = new Client();
+            cl.Start();
+            Console.ReadLine();
         }
     }
 }
