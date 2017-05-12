@@ -6,7 +6,7 @@ namespace TransferClient
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Client cl = new Client();
         }
     }
 }

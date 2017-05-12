@@ -14,11 +14,12 @@ namespace TransferServer
     {
         IPAddress ipAdr;
         Socket listener;
+        IPEndPoint endPoint;
 
         public Server()
         {
             ipAdr = IPAddress.Parse("127.0.0.1");
-            IPEndPoint endPoint = new IPEndPoint(ipAdr, 11000);
+            endPoint = new IPEndPoint(ipAdr, 11000);
             listener = new Socket(ipAdr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             listener.Bind(endPoint);
             listener.Listen(10);
