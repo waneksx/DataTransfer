@@ -31,11 +31,11 @@ namespace TransferServer
             Console.WriteLine("Waiting for connection");
             Socket socket = await listener.AcceptAsync();
             Console.WriteLine("Connected to server");
-            await Task.Run(() => ReadData(socket));
+            await ReadData(socket);
             Listen();
         }
 
-        private async void ReadData(Socket socket)
+        private async Task ReadData(Socket socket)
         {
             byte[] buffer = new byte[2048];
             List<byte> dataBuffer = new List<byte>();

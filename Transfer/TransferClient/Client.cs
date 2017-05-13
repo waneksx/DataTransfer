@@ -17,7 +17,8 @@ namespace TransferClient
 
         public Client()
         {
-            ipAdr = IPAddress.Parse("127.0.0.1");
+            //ipAdr = IPAddress.Parse("10.158.5.145");  alex pc
+            ipAdr = IPAddress.Loopback;
             endPoint = new IPEndPoint(ipAdr, 11000);
             connector = new Socket(ipAdr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
         }
