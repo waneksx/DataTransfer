@@ -13,34 +13,33 @@ namespace TransferServer
     public class Server
     {
         IPAddress ipAdr;
-        Socket listener;
+        TcpListener listener;
         IPEndPoint endPoint;
 
         public Server()
         {
-            ipAdr = IPAddress.Parse("127.0.0.1");
+            ipAdr = IPAddress.Loopback;
             endPoint = new IPEndPoint(ipAdr, 11000);
-            listener = new Socket(ipAdr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            listener.Bind(endPoint);
-            listener.Listen(10);
+            listener = new TcpListener(endPoint);
+            listener.Start();
+            
             Listen();
         }
 
         private async void Listen()
         {
             Console.WriteLine("Waiting for connection");
-            Socket socket = await listener.AcceptAsync();
+            var client = await listener.AcceptTcpClientAsync();
             Console.WriteLine("Connected to server");
-            await ReadData(socket);
+            await ReadData(client.GetStream());
             Listen();
         }
 
-        private async Task ReadData(Socket socket)
+        private async Task ReadData(NetworkStream stream)
         {
             byte[] buffer = new byte[2048];
             List<byte> dataBuffer = new List<byte>();
             int recordLength = 0;
-            NetworkStream stream = new NetworkStream(socket);
 
             do
             {
@@ -54,8 +53,6 @@ namespace TransferServer
 
             await WriteAnswer(stream);
             stream.Dispose();
-            socket.Shutdown(SocketShutdown.Both);
-            socket.Dispose();
         }
 
         private async Task WriteAnswer(NetworkStream stream)

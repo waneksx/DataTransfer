@@ -12,23 +12,23 @@ namespace TransferClient
     public class Client
     {
         IPAddress ipAdr;
-        Socket connector;
+        TcpClient client;
         IPEndPoint endPoint;
 
         public Client()
         {
-            //ipAdr = IPAddress.Parse("10.158.5.145");  alex pc
-            ipAdr = IPAddress.Loopback;
+            ipAdr = IPAddress.Loopback;  
+            //ipAdr = IPAddress.Loopback;
             endPoint = new IPEndPoint(ipAdr, 11000);
-            connector = new Socket(ipAdr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            client = new TcpClient();
         }
 
         public async Task Start(int quantity)
         {
             Console.WriteLine("Start connection");
-            await connector.ConnectAsync(endPoint);
+            await client.ConnectAsync(ipAdr, 11000);
             Console.WriteLine("Connected");
-            NetworkStream stream = new NetworkStream(connector);
+            var stream = client.GetStream();
             await WriteData(stream, quantity);
             Console.WriteLine("Data transfered, answer received, stream will disposed");
             stream.Dispose();
@@ -59,7 +59,7 @@ namespace TransferClient
 
         Call[] GetCalls(int quantity)
         {
-            Call callEmtp = new Call()
+            Call emtpyCall = new Call()
             {
                 Id = 1,
                 AgentId = 4,
@@ -75,8 +75,8 @@ namespace TransferClient
             Call[] calls = new Call[quantity];
             for (int i = 0; i < calls.Length; i++)
             {
-                callEmtp.Id = i;
-                calls[i] = callEmtp;
+                calls[i] = emtpyCall;
+                calls[i].Id = i;
             }
             return calls;
         }
