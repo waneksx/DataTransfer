@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entiti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransferClient", "TransferClient\TransferClient.csproj", "{AD26F883-0A03-4E5B-A2E6-23016C35A038}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KafkaClient", "KafkaClient\KafkaClient.csproj", "{643CD8F3-B589-4835-A329-BE152DFCF3F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{AD26F883-0A03-4E5B-A2E6-23016C35A038}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD26F883-0A03-4E5B-A2E6-23016C35A038}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD26F883-0A03-4E5B-A2E6-23016C35A038}.Release|Any CPU.Build.0 = Release|Any CPU
+		{643CD8F3-B589-4835-A329-BE152DFCF3F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{643CD8F3-B589-4835-A329-BE152DFCF3F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{643CD8F3-B589-4835-A329-BE152DFCF3F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{643CD8F3-B589-4835-A329-BE152DFCF3F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
