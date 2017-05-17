@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="MessagePack" Version="1.2.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
   </ItemGroup>
 
 </Project>
